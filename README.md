@@ -15,11 +15,21 @@ This project uses historical Tacoma-to-Seattle transactions and player performan
 
 The Random Forest performed best on a chronological 2026 holdout and was used to generate the final player rankings.
 
+### Real-World Validation
+
+The models surfaced several players who subsequently reached Seattle.
+
+- **Colt Emerson** was ranked **#2 at 85.1%** by the original MLB-arrival model and was promoted to Seattle on May 17, 2026.
+- **Lazaro Montes** was ranked **#1 at 89.5%** by the original MLB-arrival model and was promoted on September 1, 2026.
+- In the final Tacoma-to-Seattle call-up model, **Michael Arroyo ranked #3 among eligible Tacoma hitters** immediately before his September 6, 2026 promotion.
+
+These results do not prove that the model can predict front-office decisions, but they provide useful real-world evidence that the performance signals identified by the models can align with actual player movement.
+
 ### What I Found
 
-The model ranked **Michael Arroyo #3 among eligible Tacoma hitters** immediately before his September 6, 2026 promotion to Seattle.
+The Random Forest achieved a **0.701 ROC-AUC** on a chronological 2026 holdout, outperforming Logistic Regression at 0.660.
 
-This is a proof-of-concept rather than a claim that the model can predict front-office decisions. Call-ups depend on factors beyond player performance, including roster availability, injuries, positional needs, and organizational decisions.
+The model was therefore useful as a **ranking tool**, even though its scores should not be interpreted as calibrated probabilities.
 
 ![2026 Tacoma Call-Up Predictions](visualizations/2026_callup_predictions.png)
 
@@ -27,19 +37,17 @@ This is a proof-of-concept rather than a claim that the model can predict front-
 
 ## Project Overview
 
-The project began with a broader question:
+This project started with a broader question:
 
 > Can a player's Triple-A performance be used to predict whether they will reach MLB in the following season?
 
-I built a supervised learning dataset using Triple-A hitters from 2021–2024 and whether they appeared in MLB the following season. I first established a baseline model using current-season performance, then tested whether year-over-year development features improved predictions.
+I began by building a model using historical Triple-A performance from across Minor League Baseball and determining whether each player appeared in MLB the following season.
 
-Those development features did not consistently improve performance.
+The project then evolved into a more specific and actionable question:
 
-That led to a more specific and actionable question:
+> Can Triple-A performance help predict which Tacoma Rainiers player will be the Mariners' next call-up?
 
-> **Can Triple-A performance predict which Tacoma Rainiers player will be the Seattle Mariners' next call-up?**
-
-The project was then redesigned around actual Tacoma-to-Seattle transaction history, with a chronological 2026 holdout used to evaluate the final model.
+This second iteration uses actual Tacoma-to-Seattle transaction history and focuses specifically on call-up prediction.
 
 ---
 
@@ -48,22 +56,12 @@ The project was then redesigned around actual Tacoma-to-Seattle transaction hist
 ```text
 RainierToMarinerPredictiveModel/
 ├── data/
-│   ├── players.csv
-│   ├── training.csv
-│   ├── model_data.csv
-│   ├── mariners_transactions.csv
-│   ├── tacoma_callups.csv
-│   ├── callup_model_data.csv
-│   ├── 2026_rainiers_predictions.csv
-│   └── 2026_callup_predictions.csv
 ├── visualizations/
-│   ├── model_coefficients.png
-│   └── 2026_callup_predictions.png
 ├── analysis.py
+├── model.py
 ├── callups.py
 ├── callup_model_data.py
 ├── callup_model.py
-├── model.py
 ├── README.md
 ├── requirements.txt
 └── .gitignore
